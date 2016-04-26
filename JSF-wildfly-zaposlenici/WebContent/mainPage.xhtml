@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Insert title here</title>
+</h:head>
+
+
+<h:body>
+
+	<h:form id="form">
+
+		<h:outputText value="Odaberite željenu opciju" />
+		<br />
+		<br />
+		
+		<h:outputText value="&#160;" />
+		<h:commandButton value="Dodavanje zaposlenika" action="addRecord?faces-redirect=true"
+			style="width: 250px;">
+		</h:commandButton>
+		<br />
+		<br />
+		
+		<h:outputText value="&#160;" />
+		<h:commandButton value="Promjena podataka o zaposleniku" action="changeRecord?faces-redirect=true"
+			style="width: 250px;">
+		</h:commandButton>
+		<br />
+		<br />
+		
+		<h:outputText value="&#160;" />
+		<h:commandButton value="Brisanje zaposlenika" action="deleteRecord?faces-redirect=true"
+			style="width: 250px;">
+		</h:commandButton>
+		<br />
+		<br />
+		
+		<h:outputText value="&#160;" />
+		<h:commandButton value="Prikaz podataka o zaposlenicima" action="#{controller.wholeTableDisplay()}"
+			style="width: 250px;">
+			<f:ajax event="change" update="tableWhole, tablePartial" />
+		</h:commandButton>
+		<br />
+		<br />
+		
+		<h:outputText value="&#160;" />
+		<h:commandButton value="Prikaz broja zaposlenika po odjelima" action="#{controller.divisionsDisplay()}"
+			style="width: 250px;">
+			<f:ajax event="change" update="tablePartial, tableWhole" />
+		</h:commandButton>
+		<br />
+		<br />
+		
+		<h:dataTable id="tableWhole" value="#{controller.listOfRecords}" var="list" 
+			rendered="#{not empty controller.listOfRecords and controller.visibleWholeTable}" cellspacing="0" cellpadding="0" 
+			border="1" rowClasses="odd,even" style="font-size:12px;">
+
+			<h:column>
+				<f:facet name="header">Ime</f:facet>
+				<h:outputText value="#{list.ime}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Prezime</f:facet>
+				<h:outputText value="#{list.prezime}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Adresa</f:facet>
+				<h:outputText value="#{list.adresa}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Obrazovanje</f:facet>
+				<h:outputText value="#{list.obrazovanje}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Odjel</f:facet>
+				<h:outputText value="#{list.odjel}" />
+			</h:column>
+
+		</h:dataTable>
+		
+		<h:dataTable value="#{controller.employeesPerDepartmentList}" var="list" id="tablePartial" 
+			rendered="#{not empty controller.employeesPerDepartmentList and controller.visiblePartialTable}" cellspacing="0" cellpadding="0" border="1" 
+			rowClasses="odd,even"
+			style="font-size:12px;">
+
+			<h:column>
+				<f:facet name="header">Razvoj</f:facet>
+				<h:outputText value="#{list.employeesInDevelopment}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Proizvodnja</f:facet>
+				<h:outputText value="#{list.employeesInProduction}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Marketing</f:facet>
+				<h:outputText value="#{list.employeesInMarketing}" />
+			</h:column>
+			
+
+		</h:dataTable>
+				
+
+	</h:form>
+
+</h:body>
+</html>
+

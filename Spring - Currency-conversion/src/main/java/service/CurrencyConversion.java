@@ -23,8 +23,8 @@ public class CurrencyConversion {
 		
 		Scanner in = new Scanner(System.in);
 
-		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\nIzaberite valutu koju želite konvertirati u drugu valutu."
-				+ "\nPonuđene valute su: AUD, CAD, CZK, DKK, HUF, JPY, NOK, SEK, CHF, GBP, USD, EUR, PLN ");
+		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\nChoose the currency that you want to convert to another currency."
+				+ "\nPossible currencies: AUD, CAD, CZK, DKK, HUF, JPY, NOK, SEK, CHF, GBP, USD, EUR, PLN ");
 		String oznakaValutePocetna = in.nextLine();
 
 		List<String> listaOznakaValute = new ArrayList<String>();
@@ -42,11 +42,11 @@ public class CurrencyConversion {
 		listaOznakaValute.add("eur");
 		listaOznakaValute.add("pln");		
 		while (!listaOznakaValute.contains(oznakaValutePocetna.toLowerCase())) {
-			System.out.println("\nUnesite valutu u ispravnom formatu.");
+			System.out.println("\nEnter the currency in the right format.");
 			oznakaValutePocetna = in.nextLine();
 		}		
 
-		System.out.println("\nNavedite količinu jedinica odabrane valute koju treba konvertirati u željenu valutu (u integer formatu).");
+		System.out.println("\nEnter a number of units that you want to convert (in integer format).");
 		
 		String jedinice = null;
 		int jediniceInt = 0;
@@ -55,26 +55,26 @@ public class CurrencyConversion {
 				 jedinice = in.nextLine();
 				 jediniceInt = Integer.parseInt(jedinice); 
 			 }catch(NumberFormatException e) {
-				 System.out.println("Unesite količinu u integer formatu");				 
+				 System.out.println("Enter the number in integer format");				 
 			 }
 		}
 
-		System.out.println("\nIzaberite valutu u koju želite konvertirati prvu izabranu valutu."
+		System.out.println("\nChoose a currency in which you want to convert from a first chose currency."
 				+ "\nPonuđene valute su: AUD, CAD, CZK, DKK, HUF, JPY, NOK, SEK, CHF, GBP, USD, EUR, PLN ");
 		String oznakaValuteZavrsna = in.nextLine();
 		while (!listaOznakaValute.contains(oznakaValuteZavrsna.toLowerCase())) {
-			System.out.println("\nUnesite valutu u ispravnom formatu.");
+			System.out.println("\nEnter the currency in the right format.");
 			oznakaValuteZavrsna = in.nextLine();
 		}
 		
-		System.out.println("\nIzaberite datum tecaja koji ćemo primijeniti za konverziju. Upišite u formatu dd.mm.yyyy"
-				+ " (Npr. 28.08.2015) \nZa nedjelju i ponedjeljak hnb ne izrađuje tecaj, stoga za te dane vrijedi tecaj prethodnog"
-				+ " datuma za koji je tecaj izrađen");
+		System.out.println("\nEnter that date of the conversion rates list, that we are going to use. Enter in the format dd.mm.yyyy"
+				+ " (Npr. 28.08.2015) \nConversion rates for sunday and monday are not available, so"
+				+ "conversion rates from the previous day apply");
 		
 		String datum = in.nextLine();
 		datum = datum.replace(".", "").replace("20", "");		
 		while (!hashsetDatumiPrimjene.contains(datum)) {
-			System.out.println("Ne postoji tečaj za taj datum");
+			System.out.println("There don't exist conversion rates for that day");
 			datum = in.nextLine();
 			datum = datum.replace(".", "").replace("20", "");
 		}
@@ -96,10 +96,10 @@ public class CurrencyConversion {
 		double vrijednostZavršneValute = Double.parseDouble(jedinice) * srednjiTecajValutePocetne
 				/ srednjiTecajValuteZavršne;
 
-		System.out.format("\n\n\n\n\nZa %s jedinica valute %s dobije se %f jedinica valute %s", jedinice,
+		System.out.format("\n\n\n\n\nFor %s units of the currency %s you get %f units of currency %s", jedinice,
 				oznakaValutePocetna, vrijednostZavršneValute, oznakaValuteZavrsna);
 		
-		System.out.println("\nStisnite gumb za nastavak");
+		System.out.println("\nPress a button to continue");
 		in.nextLine();
 
 	}

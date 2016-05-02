@@ -1,6 +1,0 @@
-ejb\services\impl\SendMailImpl$1.class
-gui\controllers\ModelForm.class
-jpa\entities\OsobniPodaci.class
-ejb\services\impl\CreateTableImpl.class
-ejb\services\impl\SendMailImpl.class
-ejb\services\impl\JsonParseImpl.class

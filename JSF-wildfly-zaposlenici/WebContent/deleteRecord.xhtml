@@ -14,23 +14,23 @@
 
 	<h:form id="form">
 
-		<h:outputText value="Brisanje zaposlenika iz baze podataka" />
+		<h:outputText value="Delete an employee" />
 
 		<br />
 		<br />
 		<h:outputText
-			value="Unesite ime zaposlenika : &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;" />
+			value="Name : &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;" />
 		<h:inputText id="inputIme" value="#{controller.ime}" />
 		<br />
 		<br />
 
-		<h:outputText value="Unesite prezime zaposlenika :&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;" />
+		<h:outputText value="Surname :&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;" />
 		<h:inputText id="inputPrezime" value="#{controller.prezime}" />
 		<br />
 		<br />
 		
 		<h:outputText value="&#160;" />
-		<h:commandButton value="Prihvati" action="#{controller.deleteRecord()}">
+		<h:commandButton value="Accept" action="#{controller.deleteRecord()}">
 		</h:commandButton>
 		<br />
 		<br />

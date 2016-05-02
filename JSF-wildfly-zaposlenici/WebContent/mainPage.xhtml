@@ -14,42 +14,42 @@
 
 	<h:form id="form">
 
-		<h:outputText value="Odaberite željenu opciju" />
+		<h:outputText value="Choose an option" />
 		<br />
 		<br />
 		
 		<h:outputText value="&#160;" />
-		<h:commandButton value="Dodavanje zaposlenika" action="addRecord?faces-redirect=true"
-			style="width: 250px;">
+		<h:commandButton value="Add an employee" action="addRecord?faces-redirect=true"
+			style="width: 270px;">
 		</h:commandButton>
 		<br />
 		<br />
 		
 		<h:outputText value="&#160;" />
-		<h:commandButton value="Promjena podataka o zaposleniku" action="changeRecord?faces-redirect=true"
-			style="width: 250px;">
+		<h:commandButton value="Change information about employee" action="changeRecord?faces-redirect=true"
+			style="width: 270px;">
 		</h:commandButton>
 		<br />
 		<br />
 		
 		<h:outputText value="&#160;" />
-		<h:commandButton value="Brisanje zaposlenika" action="deleteRecord?faces-redirect=true"
-			style="width: 250px;">
+		<h:commandButton value="Delete an employee" action="deleteRecord?faces-redirect=true"
+			style="width: 270px;">
 		</h:commandButton>
 		<br />
 		<br />
 		
 		<h:outputText value="&#160;" />
-		<h:commandButton value="Prikaz podataka o zaposlenicima" action="#{controller.wholeTableDisplay()}"
-			style="width: 250px;">
+		<h:commandButton value="Show information about employees" action="#{controller.wholeTableDisplay()}"
+			style="width: 270px;">
 			<f:ajax event="change" update="tableWhole, tablePartial" />
 		</h:commandButton>
 		<br />
 		<br />
 		
 		<h:outputText value="&#160;" />
-		<h:commandButton value="Prikaz broja zaposlenika po odjelima" action="#{controller.divisionsDisplay()}"
-			style="width: 250px;">
+		<h:commandButton value="Show number of employees per department" action="#{controller.divisionsDisplay()}"
+			style="width: 270px;">
 			<f:ajax event="change" update="tablePartial, tableWhole" />
 		</h:commandButton>
 		<br />
@@ -60,27 +60,27 @@
 			border="1" rowClasses="odd,even" style="font-size:12px;">
 
 			<h:column>
-				<f:facet name="header">Ime</f:facet>
+				<f:facet name="header">Name</f:facet>
 				<h:outputText value="#{list.ime}" />
 			</h:column>
 
 			<h:column>
-				<f:facet name="header">Prezime</f:facet>
+				<f:facet name="header">Surname</f:facet>
 				<h:outputText value="#{list.prezime}" />
 			</h:column>
 
 			<h:column>
-				<f:facet name="header">Adresa</f:facet>
+				<f:facet name="header">Address</f:facet>
 				<h:outputText value="#{list.adresa}" />
 			</h:column>
 
 			<h:column>
-				<f:facet name="header">Obrazovanje</f:facet>
+				<f:facet name="header">Education</f:facet>
 				<h:outputText value="#{list.obrazovanje}" />
 			</h:column>
 
 			<h:column>
-				<f:facet name="header">Odjel</f:facet>
+				<f:facet name="header">Department</f:facet>
 				<h:outputText value="#{list.odjel}" />
 			</h:column>
 
@@ -92,12 +92,12 @@
 			style="font-size:12px;">
 
 			<h:column>
-				<f:facet name="header">Razvoj</f:facet>
+				<f:facet name="header">Development</f:facet>
 				<h:outputText value="#{list.employeesInDevelopment}" />
 			</h:column>
 
 			<h:column>
-				<f:facet name="header">Proizvodnja</f:facet>
+				<f:facet name="header">Production</f:facet>
 				<h:outputText value="#{list.employeesInProduction}" />
 			</h:column>
 

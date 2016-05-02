@@ -3,7 +3,9 @@
 	xmlns:c="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"		
+	xmlns:p="http://primefaces.org/ui"
+	>
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title>Insert title here</title>
@@ -15,17 +17,17 @@
 	<h:form id="form">
 
 		<h:outputText
-			value="Unesi ime : &#160;&#160;&#160;&#160;&#160;&#160;&#160;" />
+			value="Name : &#160;&#160;&#160;&#160;&#160;" />
 		<h:inputText id="inputIme" value="#{modelForm.ime}" />
 		<br />
 		<br />
 
-		<h:outputText value="Unesi prezime :&#160;" />
+		<h:outputText value="Surname :&#160;" />
 		<h:inputText id="inputPrezime" value="#{modelForm.prezime}" />
 		<br />
 		<br />
 
-		<h:outputText value="Unesi e-mail : &#160;&#160;&#160;" />
+		<h:outputText value="E-mail : &#160;&#160;&#160;&#160;" />
 		<h:inputText id="inputEMail" value="#{modelForm.email}">
 			<f:validateRegex
 				pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
@@ -35,7 +37,7 @@
 		<br />
 
 		<h:outputText value="&#160;" />
-		<h:commandButton value="Prihvati" action="#{modelForm.addRecord()}">
+		<h:commandButton value="Accept" action="#{modelForm.addRecord()}">
 			<f:ajax event="change"
 				update="output1 output2 output3 output4 table1" />
 			<h:message for="inputEMail" style="color:red" />
@@ -46,15 +48,15 @@
 
 		<h:outputText id="output1"
 			rendered="#{modelForm.osobaSTimMailomPostojiNaUrl}"
-			value="Postoji već osoba s time e-mail-om. Unesite drugi e-mail" />
+			value="Person with that e-mail already exists. Type another e-mail." />
 		<h:outputText id="output2"
 			rendered="#{modelForm.sameEmailDifferentMailFromDB}"
-			value="Postoji već osoba s time e-mail-om. Unesite drugi e-mail" />
+			value="Person with that e-mail already exists. Type another e-mail." />
 		<h:outputText id="output3"
 			rendered="#{modelForm.vrijemeIzmeduUnosaManjeOd1h}"
-			value="Vrijeme između unosa istog korisnika je manje od 1h" />
+			value="Time between entering the same user is less than one hour." />
 		<h:outputText id="output4" rendered="#{modelForm.mailSent}"
-			value="Mail poslan" />
+			value="E-mail sent" />
 
 		<br />
 		<br />

@@ -1,6 +1,6 @@
 Applications
 
-1.Tetris
+1.Tetris (Swing-Multithreading)
 
 2.Library catalog (WildFly-JPA-EJB-PrimeFaces-REST-MySQL)
 

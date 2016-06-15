@@ -1,0 +1,35 @@
+@CHARSET "ISO-8859-1";
+
+p:datalist:nth-child(2) {
+	background: #ff0000;
+}
+
+.ui-datalist-item:nth-child(odd) {
+	text-align: left;
+	background: none repeat scroll 0 0 #E5E5E5;
+	border-bottom: 1px solid #BBBBBB;
+	padding: 16px;
+}
+
+.ui-datalist-item:nth-child(even) {
+	text-align: left;
+	background: none repeat scroll 0 0;
+	border-bottom: 1px solid #BBBBBB;
+	padding: 16px;
+}
+
+.big {
+	line-height: 150%;
+}
+
+.colorText {
+	color: black;
+}
+
+.fontWeight {
+	font-weight: bold;
+}
+
+body {
+    background-color: #CCFFFF;
+}

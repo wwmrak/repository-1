@@ -1,0 +1,391 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Insert title here</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta http-equiv="X-UA-Conpatible" content="IE=edge" />
+
+	<h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+	<h:outputStylesheet name="bootstrap.css" />
+	<h:outputScript name="bootstrap.js" />
+	<h:outputStylesheet name="jquery.min.js" />
+	<h:outputStylesheet name="bootstrap.min.js" />
+	<!-- 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" /> -->
+	<!-- 	u head-u se ucitavaju svi librariji, u vezi bootstrap-a -->
+	<!-- <link rel="stylesheet" type="text/css" href="/JSF-autoComplete2-copy/styles.css"/> -->
+
+	<style>
+		p:datalist:nth-child(2) {
+			background: #ff0000;
+		}
+		
+		.ui-datalist-item:nth-child(odd) {
+			text-align: left;
+			background: none repeat scroll 0 0 #E5E5E5;
+			border-bottom: 1px solid #BBBBBB;
+			padding: 16px;
+		}
+		
+		.ui-datalist-item:nth-child(even) {
+			text-align: left;
+			background: none repeat scroll 0 0;
+			border-bottom: 1px solid #BBBBBB;
+			padding: 16px;
+		}
+		
+		.ui-button-icon-only {
+			width: 2.1em;
+		}
+		
+		.ui-button-icon-only .ui-button-text {
+			padding: .37em;
+			text-indent: -9999999px;
+		}
+		
+		.ui-selectonemenu .ui-selectonemenu-trigger .ui-icon {
+			margin-top: 6px;
+		}
+		
+		.fa-check:before {
+			color: green;
+		}
+		
+		.ui-selectonemenu .ui-selectonemenu-trigger {
+			padding: 0 0px;
+		}
+		
+		.big {
+			line-height: 150%;
+		}
+		
+		.colorText {
+			color: black;
+		}
+		
+		.fontWeight {
+			font-weight: bold;
+		}
+		
+		.fa-remove:before, .fa-close:before, .fa-times:before {
+			content: "\f00d";
+			color: red;
+		}
+		
+		.ui-corner-all {
+			-moz-border-radius: 5px;
+			-webkit-border-radius: 5px;
+			border-radius: 0px;
+		}
+		
+		ol, ul {
+			margin-left: -40px;
+		}
+		
+		.labelRelative {
+			position: relative;
+			bottom: 9px;
+		}
+		/* body { */
+		/* 	background-color: #CCFFFF; */
+		/* } */
+	</style>
+</h:head>
+
+
+<h:body>
+	<div class="container">
+		<h:form class="form-inline" id="form">
+			<br />
+			<div class="form-group">
+				<p:outputLabel value="Search: &#160;&#160;" for="themePojo" />
+				<p:autoComplete id="themePojo" value="#{catalogController.autor1}"
+					var="autori" itemLabel="#{autori.displayName}"
+					itemValue="#{autori}"
+					completeMethod="#{catalogController.completeAutorKnjiga}"
+					converter="autoriConverter" forceSelection="false" />
+			</div>
+			<div class="form-group">
+				<p:selectOneMenu id="console" immediate="true"
+					style="position: relative; top: 2px;"
+					value="#{catalogController.vrstaSearcha}">
+					<p:ajax update="themePojo" />
+					<f:selectItem itemLabel="Catalog" itemValue="katalog" />
+					<f:selectItem itemLabel="Author" itemValue="autori" />
+					<f:selectItem itemLabel="Book" itemValue="knjige" />
+				</p:selectOneMenu>
+			</div>
+			<div class="form-group">
+				<p:commandButton icon="fa fa-fw fa-search" update="@form"
+					actionListener="#{catalogController.commandButtonClick}" />
+			</div>
+			<br />
+
+
+
+			<div class="row">
+				<div class="col-sm-12">
+					<p:panel id="panel1"
+						style="margin-bottom:20px;margin-top:20px;white-space:normal;word-wrap: break-word;"
+						closeable="true"
+						rendered="#{catalogController.autor1.name != null}">
+						<h:outputText rendered="#{catalogController.autor1.name != null}"
+							value="Sort :&#160;&#160;" styleClass="big colorText" />
+						<h:outputText rendered="#{catalogController.autor1.name != null}"
+							value="&#160;#{catalogController.autor1.name}"
+							styleClass="big colorText" />
+						<ui:fragment
+							rendered="#{catalogController.isBookBorrowed eq 'Borrowed'}">
+							<br />
+						</ui:fragment>
+						<h:outputText
+							rendered="#{catalogController.isBookBorrowed eq 'Borrowed'}"
+							value="Borrowed " styleClass="big colorText" />
+						<p:commandLink
+							actionListener="#{catalogController.changeIsBookBorrowed}"
+							update="form:panel1 form:accordian1 form:dataList form:labelResults"
+							rendered="#{catalogController.isBookBorrowed eq 'Borrowed'}"
+							styleClass="fa fa-close" />
+						<ui:fragment
+							rendered="#{catalogController.isBookBorrowed eq 'Not borrowed'}">
+							<br />
+						</ui:fragment>
+						<h:outputText
+							rendered="#{catalogController.isBookBorrowed eq 'Not borrowed'}"
+							value="Not borrowed " styleClass="big colorText" />
+						<p:commandLink
+							actionListener="#{catalogController.changeIsBookBorrowed}"
+							update="form:panel1 form:accordian1 form:dataList form:labelResults"
+							rendered="#{catalogController.isBookBorrowed eq 'Not borrowed'}"
+							styleClass="fa fa-close" />
+						<ui:fragment
+							rendered="#{catalogController.bookOrCollection eq 'Book'}">
+							<br />
+						</ui:fragment>
+						<h:outputText
+							rendered="#{catalogController.bookOrCollection eq 'Book'}"
+							value="Book " styleClass="big colorText" />
+						<p:commandLink
+							actionListener="#{catalogController.changeBookOrCollection}"
+							update="form:panel1 form:accordian1 form:dataList form:labelResults"
+							rendered="#{catalogController.bookOrCollection eq 'Book'}"
+							styleClass="fa fa-close" />
+						<ui:fragment
+							rendered="#{catalogController.bookOrCollection eq 'Collection'}">
+							<br />
+						</ui:fragment>
+						<h:outputText
+							rendered="#{catalogController.bookOrCollection eq 'Collection'}"
+							value="Collection " styleClass="big colorText" />
+						<p:commandLink
+							actionListener="#{catalogController.changeBookOrCollection}"
+							update="form:panel1 form:accordian1 form:dataList form:labelResults"
+							rendered="#{catalogController.bookOrCollection eq 'Collection'}"
+							styleClass="fa fa-close" />
+					</p:panel>
+				</div>
+			</div>
+
+
+
+			<div class="row">
+				<div class="col-sm-3">
+					<p:accordionPanel id="accordian1" multiple="true"
+						activeIndex="0,1,2,3,4,5,6,7,8"
+						rendered="#{catalogController.accordianRender}">
+						<p:tab title="Status">
+							<ui:repeat value="#{catalogController.listOfStatuses}"
+								var="statuses">	
+   							 	> 
+   							 	<p:commandLink
+									update="form:panel1 form:accordian1 form:dataList form:labelResults"
+									actionListener="#{catalogController.checkBorrowed}"
+									value="#{statuses}" />
+								<br />
+							</ui:repeat>
+						</p:tab>
+						<p:tab title="Content Type">
+							<ui:repeat value="#{catalogController.listOfContentsClass}"
+								var="contentsClasses">
+								> 
+   							 	<p:commandLink
+									update="form:panel1 form:accordian1 form:dataList form:labelResults"
+									actionListener="#{catalogController.checkBookOrCollection}"
+									value="#{contentsClasses}" />
+								<br />
+							</ui:repeat>
+						</p:tab>
+						<p:tab title="Year">
+							<ui:repeat value="#{catalogController.listOfYears}" var="years">
+   							 	> #{years}<br />
+							</ui:repeat>
+						</p:tab>
+						<p:tab title="Content">
+							<ui:repeat
+								value="#{catalogController.domesticVsForeignLiterature}"
+								var="domesticVsForeign">
+   							 	> #{domesticVsForeign}<br />
+							</ui:repeat>
+						</p:tab>
+						<p:tab title="Fond">
+							<ui:repeat value="#{catalogController.listOfDemographicsClass}"
+								var="demographicClasses">
+   							 	> #{demographicClasses}<br />
+							</ui:repeat>
+						</p:tab>
+						<p:tab title="Language">
+							<ui:repeat value="#{catalogController.listOfLanguages}"
+								var="languages">
+   							 	> #{languages}<br />
+							</ui:repeat>
+						</p:tab>
+						<p:tab title="Publisher">
+							<ui:repeat value="#{catalogController.listOfPublishers}"
+								var="publishers">
+   							 	> #{publishers}<br />
+							</ui:repeat>
+						</p:tab>
+						<p:tab title="Publishing place">
+							<ui:repeat value="#{catalogController.listOfPublishingCities}"
+								var="publishingCities">
+   							 	> #{publishingCities}<br />
+							</ui:repeat>
+						</p:tab>
+						<p:tab title="Location">
+							<h:panelGrid columns="2" cellpadding="10">
+								<h:outputText value="" />
+							</h:panelGrid>
+						</p:tab>
+					</p:accordionPanel>
+				</div>
+				<div class="col-sm-9">
+					<p:outputLabel class="labelRelative"
+						rendered="#{catalogController.menuListingView}"
+						value="Results:&nbsp;" />
+					<p:outputLabel id="labelResults" class="labelRelative"
+						rendered="#{catalogController.menuListingView}"
+						value="#{catalogController.rowsNumber}" />
+					<p:outputLabel class="labelRelative"
+						rendered="#{catalogController.menuListingView}" for="console2"
+						value="&#160;&#160;&#160;&#160;Sort :&#160;" />
+					<p:selectOneMenu id="console2"
+						value="#{catalogController.menuListingSelect}"
+						rendered="#{catalogController.menuListingView}"
+						style="width:125px">
+						<p:ajax update="form:dataList form:accordian1"
+							listener="#{catalogController.selectMenuItem()}" />
+						<f:selectItem itemLabel="default" itemValue="default" />
+						<f:selectItem itemLabel="title" itemValue="title" />
+						<f:selectItem itemLabel="year" itemValue="year" />
+					</p:selectOneMenu>
+					<p:dataList id="dataList"
+						rendered="#{catalogController.datalistRender}" rowIndexVar="true"
+						value="#{catalogController.listAuthorsBooks}"
+						var="listaKnjigeAutora" type="ordered" itemType="none"
+						paginator="true" paginatorPosition="top" rows="3"
+						styleClass="paginated">
+						<f:facet name="header">
+						</f:facet>
+						<br />
+						<p:commandLink id="knjiga"
+							update="form:panelGrid form:outputText1 form:tabView1"
+							value="#{listaKnjigeAutora.book}" onclick="PF('dlg1').show();"
+							actionListener="#{catalogController.accessInformationReach}">
+						</p:commandLink>
+						<br />
+						<h:outputText value="#{listaKnjigeAutora.author}"
+							styleClass="big colorText fontWeight" />
+						<br />
+						<h:outputText value="#{listaKnjigeAutora.city}&nbsp;"
+							styleClass="big" />
+						<h:outputText value="#{listaKnjigeAutora.publisher}&nbsp;"
+							styleClass="big" />
+						<h:outputText value="#{listaKnjigeAutora.year}" styleClass="big" />
+						<br />
+						<h:outputText value="#{listaKnjigeAutora.contentType}"
+							styleClass="big" />
+						<br />
+						<h:outputText rendered="#{listaKnjigeAutora.status eq 'Borrowed'}"
+							value="&#160;#{listaKnjigeAutora.status}"
+							styleClass="fa fa-check big colorText" />
+						<h:outputText
+							rendered="#{listaKnjigeAutora.status eq 'Not borrowed'}"
+							value="&#160;#{listaKnjigeAutora.status}"
+							styleClass="fa fa-close big colorText" />
+						<br />
+					</p:dataList>
+					<p:dialog header="Book information" widgetVar="dlg1" minHeight="40">
+						<p:ajax event="close" update="form:panelGrid form:tabView1"
+							listener="#{catalogController.clearBookInfo}" />
+						<h:outputText id="outputText1"
+							value="#{catalogController.bookInfo.book}" />
+						<p:panelGrid id="panelGrid" columns="2">
+							<h:outputText value="Author" />
+							<h:outputText value="#{catalogController.bookInfo.author}" />
+							<h:outputText value="Edition" />
+							<h:outputText value="#{catalogController.bookInfo.edition}" />
+							<h:outputText value="Publisher" />
+							<h:outputText value="#{catalogController.bookInfo.publisher}" />
+							<h:outputText value="Material description" />
+							<h:outputText value="#{catalogController.bookInfo.contentType}" />
+							<h:outputText value="Material detail" />
+							<h:outputText value="#{catalogController.bookInfo.contentType}" />
+							<h:outputText value="Classification note" />
+							<h:outputText value="#{catalogController.bookInfo.classification}" />
+							<h:outputText value="Language" />
+							<h:outputText value="#{catalogController.bookInfo.language}" />
+							<h:outputText value="Content type" />
+							<h:outputText value="#{catalogController.bookInfo.contentType}" />
+						</p:panelGrid>
+						<p:tabView id="tabView1">
+							<p:tab title="ISBD">
+								<h:panelGrid columns="2" cellpadding="10">
+									<h:outputText value="343.092" />
+								</h:panelGrid>
+							</p:tab>
+							<p:tab title="Location">
+								<p:dataTable var="bookDetailedInfo"
+									value="#{catalogController.bookDetailedInfo}"
+									styleClass="bookInfo-table" headerClass="bookInfo-table-header"
+									rowClasses="bookInfo-table-odd-row, bookInfo-table-even-row">
+									<f:facet name="header">
+        								List of available books
+    								</f:facet>
+									<p:column headerText="Library">
+										<h:outputText value="#{bookDetailedInfo.library}" />
+									</p:column>
+									<p:column headerText="Location">
+										<h:outputText value="#{bookDetailedInfo.location}" />
+									</p:column>
+									<p:column headerText="Signature">
+										<h:outputText value="#{bookDetailedInfo.signature}" />
+									</p:column>
+									<p:column headerText="Status">
+										<h:outputText value="#{bookDetailedInfo.status}" />
+									</p:column>
+									<p:column headerText="Remark">
+										<h:outputText value="#{bookDetailedInfo.remark}" />
+									</p:column>
+									<p:column headerText="Inventory number">
+										<h:outputText value="#{bookDetailedInfo.inventoryNumber}" />
+									</p:column>
+									<p:column headerText="Identity">
+										<h:outputText value="#{bookDetailedInfo.identity}" />
+									</p:column>
+								</p:dataTable>
+							</p:tab>
+						</p:tabView>
+					</p:dialog>
+				</div>
+			</div>
+		</h:form>
+	</div>
+</h:body>
+</html>

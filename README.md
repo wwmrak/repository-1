@@ -2,7 +2,7 @@ Applications
 
 1.Tetris (Swing-Multithreading)
 
-2.Library catalog (WildFly-JPA-EJB-PrimeFaces-REST-Bootstrap-MySQL)
+2.Library catalog system (WildFly-JPA-EJB-PrimeFaces-REST-Bootstrap-MySQL)
 
 3.Employee-Management (Wildfly-JPA-EJB-JSF-MySQL). User can insert employee's information into the database, change it, update it and 
 delete it. Upon request, table with all employee's information is interactively displayed. Also, on request, table with number of employees

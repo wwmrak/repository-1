@@ -6,39 +6,36 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-	<title>Insert title here</title>
+	<title>changeRecordPage</title>
 </h:head>
 
-
 <h:body>
-
-	<h:form id="form">
-
+	<h:form id="formId">
 		<h:outputText value="Change employee information" />
-
 		<br />
 		<br />
+		
 		<h:outputText
 			value="Name : &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;" />
-		<h:inputText id="inputIme" value="#{controller.ime}" />
+		<h:inputText id="nameId" value="#{controller.name}" />
 		<br />
 		<br />
 
 		<h:outputText value="Surname :&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;" />
-		<h:inputText id="inputPrezime" value="#{controller.prezime}" />
+		<h:inputText id="surnameId" value="#{controller.surname}" />
 		<br />
 		<br />
 
 		<h:outputText
 			value="Address : &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;" />
-		<h:inputText id="inputAdresa" value="#{controller.adresa}">
+		<h:inputText id="addressId" value="#{controller.address}">
 		</h:inputText>
 		<br />
 		<br />
 		
 		<h:outputText
 			value="Education : &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;" />
-		<h:inputText id="inputObrazovanje" value="#{controller.obrazovanje}">
+		<h:inputText id="educationId" value="#{controller.education}">
 		</h:inputText>
 		<br />
 		<br />
@@ -48,7 +45,7 @@
 		<br />
 		<h:outputText
 			value="(Development, Production or Marketing) : &#160;&#160;&#160;" />
-		<h:inputText id="inputOdjel" value="#{controller.odjel}">
+		<h:inputText id="departmentId" value="#{controller.department}">
 		</h:inputText>
 		<br />
 		<br />
@@ -58,9 +55,7 @@
 		</h:commandButton>
 		<br />
 		<br />
-
 	</h:form>
-
 </h:body>
 </html>
 

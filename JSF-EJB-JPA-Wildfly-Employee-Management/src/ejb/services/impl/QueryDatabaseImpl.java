@@ -10,63 +10,55 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
-import ejb.services.QueryDatabase;
-import jpa.entities.OsobniPodaci;
+import ejb.services.AccessDatabase;
+import jpa.entities.PersonalInfo;
 
 @Stateless
-public class QueryDatabaseImpl implements QueryDatabase {
-	
-	@PersistenceContext(name = "EmployeeApp")
+public class AccessDatabaseImpl implements AccessDatabase {
+	@PersistenceContext(name = "EmployeeManagementUnit")
 	private EntityManager entitymanager;	
 	
-	public void createRecord(String ime, String prezime, String adresa, String obrazovanje, String odjel) {
-
-		OsobniPodaci osobniPodaci = new OsobniPodaci();
+	public void createRecord(String name, String surname, String address, String education, String department) {
+		PersonalInfo persInfoObj = new PersonalInfo();
+		persInfoObj.setIme(name);
+		persInfoObj.setPrezime(surname);
+		persInfoObj.setObrazovanje(education);
+		persInfoObj.setAdresa(address);
+		persInfoObj.setOdjel(department);
 		
-		osobniPodaci.setIme(ime);
-		osobniPodaci.setPrezime(prezime);
-		osobniPodaci.setObrazovanje(obrazovanje);
-		osobniPodaci.setAdresa(adresa);
-		osobniPodaci.setOdjel(odjel);
-		
-		entitymanager.persist(osobniPodaci);
+		entitymanager.persist(persInfoObj);
 	}
 
-	public void deleteRecord(String ime, String prezime) {
-		entitymanager.createNamedQuery("deleteRecord").setParameter("ime", ime).setParameter("prezime", prezime)
+	public void deleteRecord(String name, String surname) {
+		entitymanager.createNamedQuery("deleteRecord").setParameter("name", name).setParameter("surname", surname)
 			.executeUpdate();
 	}
 		
-	public void changeRecord(String ime, String prezime, String adresa, String obrazovanje, String odjel) {
-		CriteriaBuilder cb = entitymanager.getCriteriaBuilder();
+	public void changeRecord(String name, String surname, String address, String education, String department) {
+		CriteriaBuilder criteriaBuilderObj = entitymanager.getCriteriaBuilder();
+		CriteriaUpdate<PersonalInfo> criteriaUpdateObj = criteriaBuilderObj.createCriteriaUpdate(PersonalInfo.class);
+		Root<PersonalInfo> e = criteriaUpdateObj.from(PersonalInfo.class);
 		  
-		// create update
-		CriteriaUpdate<OsobniPodaci> update = cb.createCriteriaUpdate(OsobniPodaci.class);
+		criteriaUpdateObj.set("address", address);
+		criteriaUpdateObj.set("education", education);
+		criteriaUpdateObj.set("department", department);
+		criteriaUpdateObj.where(criteriaBuilderObj.equal(e.get("name"), 
+		     name));
+		criteriaUpdateObj.where(criteriaBuilderObj.equal(e.get("surname"), 
+			     surname));
 		  
-		// set the root class
-		Root<OsobniPodaci> e = update.from(OsobniPodaci.class);
-		  
-		update.set("adresa", adresa);
-		update.set("obrazovanje", obrazovanje);
-		update.set("odjel", odjel);
-		update.where(cb.equal(e.get("ime"), 
-		     ime));
-		update.where(cb.equal(e.get("prezime"), 
-			     prezime));
-		  
-		entitymanager.createQuery(update).executeUpdate();
+		entitymanager.createQuery(criteriaUpdateObj).executeUpdate();
 	}
 	
-	public List<OsobniPodaci> selectWholeTable() {
-		
+	public List<PersonalInfo> selectWholeTable() {
 		@SuppressWarnings("unchecked")
-		List<OsobniPodaci> listOfRecords = entitymanager.createNamedQuery("selectAll")
+		List<PersonalInfo> listOfRecords = entitymanager.createNamedQuery("selectAll")
 			.getResultList();
 
 		return listOfRecords;
 	}
 	
-	public List<Integer> divisionsDisplay() {
+	public List<Integer> departmentsDisplay() {
 		int employeesInDevelopment = ((Number)entitymanager.createNamedQuery("employeesInDevelopment")
 				.getSingleResult()).intValue();
 		int employeesInProduction = ((Number)entitymanager.createNamedQuery("employeesInProduction")

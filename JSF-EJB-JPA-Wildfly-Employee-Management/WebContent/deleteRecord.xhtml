@@ -6,26 +6,23 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-	<title>Insert title here</title>
+	<title>deleteRecordPage</title>
 </h:head>
 
-
 <h:body>
-
-	<h:form id="form">
-
+	<h:form id="formId">
 		<h:outputText value="Delete an employee" />
-
 		<br />
 		<br />
+		
 		<h:outputText
 			value="Name : &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;" />
-		<h:inputText id="inputIme" value="#{controller.ime}" />
+		<h:inputText id="nameId" value="#{controller.name}" />
 		<br />
 		<br />
 
 		<h:outputText value="Surname :&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;" />
-		<h:inputText id="inputPrezime" value="#{controller.prezime}" />
+		<h:inputText id="surnameId" value="#{controller.surname}" />
 		<br />
 		<br />
 		
@@ -34,9 +31,7 @@
 		</h:commandButton>
 		<br />
 		<br />
-
 	</h:form>
-
 </h:body>
 </html>
 

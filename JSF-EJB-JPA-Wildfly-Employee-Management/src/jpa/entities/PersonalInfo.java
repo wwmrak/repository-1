@@ -12,9 +12,9 @@ import javax.persistence.Table;
 @NamedQueries({
 	@NamedQuery(name = "deleteRecord", query = "DELETE from PersonalInfo p WHERE p.name =:name and p.surname=:surname"),
 	@NamedQuery(name = "selectAll", query = "SELECT p from PersonalInfo p"),
-	@NamedQuery(name = "selectEmployeesInDevelopment", query = "SELECT COUNT(p.department) FROM PersonalInfo p WHERE p.odjel='Department'"),
-	@NamedQuery(name = "selectEmployeesInProduction", query = "SELECT COUNT(p.department) FROM PersonalInfo p WHERE p.odjel='Production'"),
-	@NamedQuery(name = "selectEmployeesInMarketing", query = "SELECT COUNT(p.department) FROM PersonalInfo p WHERE p.odjel='Marketing'"),
+	@NamedQuery(name = "selectEmployeesInDevelopment", query = "SELECT COUNT(p.department) FROM PersonalInfo p WHERE p.department='Development'"),
+	@NamedQuery(name = "selectEmployeesInProduction", query = "SELECT COUNT(p.department) FROM PersonalInfo p WHERE p.department='Production'"),
+	@NamedQuery(name = "selectEmployeesInMarketing", query = "SELECT COUNT(p.department) FROM PersonalInfo p WHERE p.department='Marketing'"),
 }) 
 
 public class PersonalInfo {

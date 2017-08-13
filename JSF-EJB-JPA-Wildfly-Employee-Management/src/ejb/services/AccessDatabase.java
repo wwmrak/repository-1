@@ -9,5 +9,4 @@ public interface AccessDatabase {
 	public void changeRecord(String name, String surname, String address, String education, String department);	
 	public List<PersonalInfo> selectWholeTable();	
 	public List<Integer> departmentsDisplay();
-
 }

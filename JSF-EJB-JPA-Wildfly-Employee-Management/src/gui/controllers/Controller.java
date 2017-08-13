@@ -60,6 +60,7 @@ public class Controller implements Serializable {
 	public List<EmployeesPerDepartment> getEmployeesPerDepartmentList() {
 		return employeesPerDepartmentList;
 	}
+	
 	public String getName() {
 		return name;
 	}

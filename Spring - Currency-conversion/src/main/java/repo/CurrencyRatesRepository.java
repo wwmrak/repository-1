@@ -8,7 +8,7 @@ import entity.CurrencyRates;
 
 @Repository
 public interface CurrencyRatesRepository extends CrudRepository<CurrencyRates, Long>{
-	public List<Date> selectDatumPrimjeneFromTecajneListe();
-	public List<Double> srednjiTecajPoDatumuIValuti(String oznakaValute, Date datumPrimjene);
-	List<Object[]> selectOznakaValuteDatumPrimjeneSrednjiTecaj();
+	public List<Date> selectApplicationDateFromCurrencyRatesTable();
+	public List<Double> getMiddleRateByDateAndCurrency(String currencyCode, Date applicationDate);
+	List<Object[]> selectCurrencyCodeApplicationDateAndMiddleRate();
 }

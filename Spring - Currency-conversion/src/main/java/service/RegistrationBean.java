@@ -2,36 +2,29 @@ package service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import repo.RazlikovnaTablicaRepository;
-import repo.TecajneListeRepository;
+import repo.CurrencyRatesRepository;
+import repo.DifferenceTableRepository;
 
 @Component
 public class RegistrationBean {
-	
-	@Autowired
-	private TecajneListeRepository tecajneListeRepository;
-	
-	@Autowired
-	private RazlikovnaTablicaRepository razlikovnaTablicaRepository;
-	
 	public RegistrationBean(){
 	}
-
-	public RazlikovnaTablicaRepository getRazlikovnaTablicaRepository() {
-		return razlikovnaTablicaRepository;
-	}
-
-	public void setRazlikovnaTablicaRepository(RazlikovnaTablicaRepository razlikovnaTablicaRepository) {
-		this.razlikovnaTablicaRepository = razlikovnaTablicaRepository;
-	}
 	
-	public TecajneListeRepository getTecajneListeRepository() {
-		return tecajneListeRepository;
-	}
+	@Autowired
+	private CurrencyRatesRepository currencyRatesRepository;
+	@Autowired
+	private DifferenceTableRepository DifferenceTableRepository;
 
-	public void setTecajneListeRepository(TecajneListeRepository tecajneListeRepository) {
-		this.tecajneListeRepository = tecajneListeRepository;
+	public CurrencyRatesRepository getCurrencyRatesRepository() {
+		return currencyRatesRepository;
 	}
-	
+	public void setCurrencyRatesRepository(CurrencyRatesRepository currencyRatesRepository) {
+		this.currencyRatesRepository = currencyRatesRepository;
+	}
+	public DifferenceTableRepository getDifferenceTableRepository() {
+		return DifferenceTableRepository;
+	}
+	public void setDifferenceTableRepository(DifferenceTableRepository differenceTableRepository) {
+		DifferenceTableRepository = differenceTableRepository;
+	}
 }

@@ -31,7 +31,7 @@ public class DownloadAndParse {
 		AccessDatabase accessDatabaseObj = (AccessDatabase) context.getBean("accessDatabase");
 		accessDatabaseObj.createTableCurrencyRates(allDaysCurrencyInfoList);
 
-		new CurrencyConversion().currencyConversion(accessDatabaseObj);
+		new CurrencyConversion().convertCurrency(accessDatabaseObj);
 
 		accessDatabaseObj.createDifferenceTable();
 	}

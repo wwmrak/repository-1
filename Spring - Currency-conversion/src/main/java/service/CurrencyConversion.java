@@ -1,108 +1,144 @@
 package service;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
 public class CurrencyConversion {
-
-	public void currencyConversion(CreateTable createTable1) {
-		
-		Set<String> hashsetDatumiPrimjene = new HashSet<String>();
-		
-		List<Date> listaDatumaPrimjene = createTable1.provjeraDatumaIzTablice();
-		for (Date datumPrimjene : listaDatumaPrimjene) {
-			String datumPrimjeneString = new SimpleDateFormat("ddMMyy").format(datumPrimjene);
-			hashsetDatumiPrimjene.add(datumPrimjeneString);
-		}
+	
+	public void convertCurrency(AccessDatabase accessDatabaseObj) {
+		Set<String> applicationDatesSet = new HashSet<String>();
+		fillApplicationDatesSet(accessDatabaseObj, applicationDatesSet);
 		
 		Scanner in = new Scanner(System.in);
+		Map<String, String> currencyInfoTempMap = queryUser(applicationDatesSet, in);
+		String firstChosenCurrencyCode = currencyInfoTempMap.get("firstChosenCurrencyCode");
+		String secondChosenCurrencyCode = currencyInfoTempMap.get("secondChosenCurrencyCode");
+		String unitsNumberString = currencyInfoTempMap.get("unitsNumberString");
+		String date = currencyInfoTempMap.get("date");
+		
+		List<List<Double>> middleRateOfSecondCurrencyList = accessDatabaseObj.conversionQuery(date, secondChosenCurrencyCode,
+				firstChosenCurrencyCode);
+	
+		double middleRateOfFirstCurrency = middleRateOfSecondCurrencyList.get(0).get(0);
+		double middleRateOfSecondCurrency = middleRateOfSecondCurrencyList.get(1).get(0);
 
-		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\nChoose the currency that you want to convert to another currency."
-				+ "\nPossible currencies: AUD, CAD, CZK, DKK, HUF, JPY, NOK, SEK, CHF, GBP, USD, EUR, PLN ");
-		String oznakaValutePocetna = in.nextLine();
+		if (firstChosenCurrencyCode.equals("huf") || firstChosenCurrencyCode.equals("jpy")) {
+			middleRateOfFirstCurrency = middleRateOfFirstCurrency / 100;
+		}
+		if (secondChosenCurrencyCode.equals("huf") || secondChosenCurrencyCode.equals("jpy")) {
+			middleRateOfSecondCurrency = middleRateOfSecondCurrency / 100;
+		}
 
-		List<String> listaOznakaValute = new ArrayList<String>();
-		listaOznakaValute.add("aud");
-		listaOznakaValute.add("cad");
-		listaOznakaValute.add("czk");
-		listaOznakaValute.add("dkk");
-		listaOznakaValute.add("huf");
-		listaOznakaValute.add("jpy");
-		listaOznakaValute.add("nok");
-		listaOznakaValute.add("sek");
-		listaOznakaValute.add("chf");
-		listaOznakaValute.add("gbp");
-		listaOznakaValute.add("usd");
-		listaOznakaValute.add("eur");
-		listaOznakaValute.add("pln");		
-		while (!listaOznakaValute.contains(oznakaValutePocetna.toLowerCase())) {
-			System.out.println("\nEnter the currency in the right format.");
-			oznakaValutePocetna = in.nextLine();
+		double valueOfSecondCurrency = Double.parseDouble(unitsNumberString) * middleRateOfFirstCurrency
+				/ middleRateOfSecondCurrency;
+
+		printInfoToUser(in, firstChosenCurrencyCode, secondChosenCurrencyCode, unitsNumberString,
+				valueOfSecondCurrency);
+	}
+
+	private void fillApplicationDatesSet(AccessDatabase accessDatabaseObj, Set<String> applicationDatesSet) {
+		List<Date> applicationDatesList = accessDatabaseObj.checkDatesFromTableCurrencyRates();
+		
+		for (Date applicationDate : applicationDatesList) {
+			String applicationDateString = new SimpleDateFormat("ddMMyy").format(applicationDate);
+			applicationDatesSet.add(applicationDateString);
+		}
+	}
+
+	private void printInfoToUser(Scanner in, String firstChosenCurrencyCode, String secondChosenCurrencyCode,
+			String unitsNumberString, double valueOfSecondCurrency) {
+		System.out.format("\n\n\n\n\nFor %s units of the currency %s you receive %f units of currency %s", unitsNumberString,
+				firstChosenCurrencyCode, valueOfSecondCurrency, secondChosenCurrencyCode);
+		System.out.println("\nPress a button to continue");
+		in.nextLine();
+	}
+
+	Map<String, String> queryUser(Set<String> applicationDatesSet, Scanner in) {
+		List<String> currencyCodesList = new ArrayList<String>();
+		addCurrencyCodesToList(currencyCodesList);
+		
+		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\nChoose the currency to convert to another currency."
+				+ "\nCurrencies offered : AUD, CAD, CZK, DKK, HUF, JPY, NOK, SEK, CHF, GBP, USD, EUR, PLN ");
+		String firstChosenCurrencyCode = in.nextLine();
+		
+		while (!currencyCodesList.contains(firstChosenCurrencyCode.toLowerCase())) {
+			System.out.println("\nEnter the currency in right format");
+			firstChosenCurrencyCode = in.nextLine();
 		}		
 
-		System.out.println("\nEnter a number of units that you want to convert (in integer format).");
+		System.out.println("\nEnter a number of units to convert");
+		String unitsNumberString = getUnitsNumberFromUser(in);
+
+		System.out.println("\nChoose a currency to which to convert"
+				+ "\nOffered currencies : AUD, CAD, CZK, DKK, HUF, JPY, NOK, SEK, CHF, GBP, USD, EUR, PLN ");
+		String secondChosenCurrencyCode = in.nextLine();
+		while (!currencyCodesList.contains(secondChosenCurrencyCode.toLowerCase())) {
+			System.out.println("\nEnter the currency in the right format.");
+			secondChosenCurrencyCode = in.nextLine();
+		}
 		
-		String jedinice = null;
-		int jediniceInt = 0;
-		while (jediniceInt == 0) {  
+		System.out.println("\nEnter date of the conversion rates list. Enter in following format : dd.mm.yyyy"
+				+ " (Npr. 28.08.2015) \nConversion rates for sunday and monday are not available. "
+				+ "Conversion rates from previous friday apply");
+		
+		String date = in.nextLine();
+		date = correctDate(applicationDatesSet, in, date);
+		
+		Map<String, String> currencyInfoTempMap = new HashMap<String, String>();
+		currencyInfoTempMap.put("firstChosenCurrencyCode", firstChosenCurrencyCode);
+		currencyInfoTempMap.put("secondChosenCurrencyCode", secondChosenCurrencyCode);
+		currencyInfoTempMap.put("unitsNumberString", unitsNumberString);
+		currencyInfoTempMap.put("date", date);
+		
+		return currencyInfoTempMap;
+	}
+
+	private String getUnitsNumberFromUser(Scanner in) {
+		String unitsNumberString = null;
+		int unitsNumber = 0;
+		while (unitsNumber == 0) {  
 		try {
-				 jedinice = in.nextLine();
-				 jediniceInt = Integer.parseInt(jedinice); 
+				 unitsNumberString = in.nextLine();
+				 unitsNumber = Integer.parseInt(unitsNumberString); 
 			 }catch(NumberFormatException e) {
 				 System.out.println("Enter the number in integer format");				 
 			 }
 		}
-
-		System.out.println("\nChoose a currency in which you want to convert from a first chose currency."
-				+ "\nPonuđene valute su: AUD, CAD, CZK, DKK, HUF, JPY, NOK, SEK, CHF, GBP, USD, EUR, PLN ");
-		String oznakaValuteZavrsna = in.nextLine();
-		while (!listaOznakaValute.contains(oznakaValuteZavrsna.toLowerCase())) {
-			System.out.println("\nEnter the currency in the right format.");
-			oznakaValuteZavrsna = in.nextLine();
-		}
-		
-		System.out.println("\nEnter that date of the conversion rates list, that we are going to use. Enter in the format dd.mm.yyyy"
-				+ " (Npr. 28.08.2015) \nConversion rates for sunday and monday are not available, so"
-				+ "conversion rates from the previous day apply");
-		
-		String datum = in.nextLine();
-		datum = datum.replace(".", "").replace("20", "");		
-		while (!hashsetDatumiPrimjene.contains(datum)) {
-			System.out.println("There don't exist conversion rates for that day");
-			datum = in.nextLine();
-			datum = datum.replace(".", "").replace("20", "");
-		}
-		
-		List<List<Double>> listSrednjiTecaj2Valute = createTable1.conversionQuery(datum, oznakaValuteZavrsna,
-				oznakaValutePocetna);
-	
-		double srednjiTecajValutePocetne = listSrednjiTecaj2Valute.get(0).get(0);
-		double srednjiTecajValuteZavršne = listSrednjiTecaj2Valute.get(1).get(0);
-
-		if (oznakaValutePocetna.equals("huf") || oznakaValutePocetna.equals("jpy")) {
-			srednjiTecajValutePocetne = srednjiTecajValutePocetne / 100;
-		}
-
-		if (oznakaValuteZavrsna.equals("huf") || oznakaValuteZavrsna.equals("jpy")) {
-			srednjiTecajValuteZavršne = srednjiTecajValuteZavršne / 100;
-		}
-
-		double vrijednostZavršneValute = Double.parseDouble(jedinice) * srednjiTecajValutePocetne
-				/ srednjiTecajValuteZavršne;
-
-		System.out.format("\n\n\n\n\nFor %s units of the currency %s you get %f units of currency %s", jedinice,
-				oznakaValutePocetna, vrijednostZavršneValute, oznakaValuteZavrsna);
-		
-		System.out.println("\nPress a button to continue");
-		in.nextLine();
-
+		return unitsNumberString;
 	}
 
+	private String correctDate(Set<String> applicationDatesSet, Scanner in, String date) {
+		date = date.replace(".", "").replace("20", "");		
+		
+		while (!applicationDatesSet.contains(date)) {
+			System.out.println("Conversion rates for that day don't exist");
+			date = in.nextLine();
+			date = date.replace(".", "").replace("20", "");
+		}
+		return date;
+	}
+
+	private void addCurrencyCodesToList(List<String> currencyCodesList) {
+		currencyCodesList.add("aud");
+		currencyCodesList.add("cad");
+		currencyCodesList.add("czk");
+		currencyCodesList.add("dkk");
+		currencyCodesList.add("huf");
+		currencyCodesList.add("jpy");
+		currencyCodesList.add("nok");
+		currencyCodesList.add("sek");
+		currencyCodesList.add("chf");
+		currencyCodesList.add("gbp");
+		currencyCodesList.add("usd");
+		currencyCodesList.add("eur");
+		currencyCodesList.add("pln");
+	}
 }
 

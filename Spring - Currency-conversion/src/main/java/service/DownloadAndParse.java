@@ -16,17 +16,17 @@ import java.util.Map;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class ReadURLAndParse {
+public class DownloadAndParse {
 	private List<Map<String, String>> allDaysCurrencyInfoList = new ArrayList<Map<String, String>>();
 
 	public static void main(String[] args) {
-		new ReadURLAndParse().startProgram();
+		new DownloadAndParse().startProgram();
 	}
 	
 	public void startProgram() {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("SpringContext.xml");
 		
-		new ReadURLAndParse().getDownloadUrls();
+		new DownloadAndParse().getDownloadUrls();
 
 		AccessDatabase accessDatabaseObj = (AccessDatabase) context.getBean("accessDatabase");
 		accessDatabaseObj.createTableCurrencyRates(allDaysCurrencyInfoList);

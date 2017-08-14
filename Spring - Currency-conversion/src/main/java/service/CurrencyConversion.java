@@ -43,23 +43,6 @@ public class CurrencyConversion {
 				valueOfSecondCurrency);
 	}
 
-	private void fillApplicationDatesSet(AccessDatabase accessDatabaseObj, Set<String> applicationDatesSet) {
-		List<Date> applicationDatesList = accessDatabaseObj.checkDatesFromTableCurrencyRates();
-		
-		for (Date applicationDate : applicationDatesList) {
-			String applicationDateString = new SimpleDateFormat("ddMMyy").format(applicationDate);
-			applicationDatesSet.add(applicationDateString);
-		}
-	}
-
-	private void printInfoToUser(Scanner in, String firstChosenCurrencyCode, String secondChosenCurrencyCode,
-			String unitsNumberString, double valueOfSecondCurrency) {
-		System.out.format("\n\n\n\n\nFor %s units of the currency %s you receive %f units of currency %s", unitsNumberString,
-				firstChosenCurrencyCode, valueOfSecondCurrency, secondChosenCurrencyCode);
-		System.out.println("\nPress a button to continue");
-		in.nextLine();
-	}
-
 	Map<String, String> queryUser(Set<String> applicationDatesSet, Scanner in) {
 		List<String> currencyCodesList = new ArrayList<String>();
 		addCurrencyCodesToList(currencyCodesList);
@@ -123,6 +106,24 @@ public class CurrencyConversion {
 			date = date.replace(".", "").replace("20", "");
 		}
 		return date;
+	}
+	
+
+	private void fillApplicationDatesSet(AccessDatabase accessDatabaseObj, Set<String> applicationDatesSet) {
+		List<Date> applicationDatesList = accessDatabaseObj.checkDatesFromTableCurrencyRates();
+		
+		for (Date applicationDate : applicationDatesList) {
+			String applicationDateString = new SimpleDateFormat("ddMMyy").format(applicationDate);
+			applicationDatesSet.add(applicationDateString);
+		}
+	}
+
+	private void printInfoToUser(Scanner in, String firstChosenCurrencyCode, String secondChosenCurrencyCode,
+			String unitsNumberString, double valueOfSecondCurrency) {
+		System.out.format("\n\n\n\n\nFor %s units of the currency %s you receive %f units of currency %s", unitsNumberString,
+				firstChosenCurrencyCode, valueOfSecondCurrency, secondChosenCurrencyCode);
+		System.out.println("\nPress a button to continue");
+		in.nextLine();
 	}
 
 	private void addCurrencyCodesToList(List<String> currencyCodesList) {

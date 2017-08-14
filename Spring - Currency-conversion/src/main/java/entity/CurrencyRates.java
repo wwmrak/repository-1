@@ -21,20 +21,18 @@ import javax.persistence.TemporalType;
      @NamedQuery(query = "select c.applicationDate, c.currencyCode, c.middleRate from CurrencyRates c", 
     			name = "CurrencyRates.selectApplicationDateCurrencyCodeAndMiddleRate"),
      @NamedQuery(query = "select c.applicationDate from CurrencyRates c", 
-		name = "TecajneListe.selectApplicationDateFromCurrencyRates"),
+		name = "CurrencyRates.selectApplicationDateFromCurrencyRates"),
 }) 
 
 public class CurrencyRates {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	//broj tecajnice
 	private int rateDesignation;
 	private int currencyNumber;
 	private String currencyCode;
 	private int numberOfUnits;
 	
-	//datum izrade
 	@Temporal(TemporalType.DATE)	
 	private Date creationDate;
 	@Temporal(TemporalType.DATE)
@@ -118,7 +116,7 @@ public class CurrencyRates {
     	if (obj == this) return true;
     	if (!(obj instanceof CurrencyRates)) return false;
     	if (obj == null) return false;
-    	CurrencyRates tl = (CurrencyRates) obj;
-    	return tl.applicationDate == applicationDate && tl.currencyCode.equals(currencyCode);
+    	CurrencyRates currencyRatesObj = (CurrencyRates) obj;
+    	return currencyRatesObj.applicationDate == applicationDate && currencyRatesObj.currencyCode.equals(currencyCode);
     }
 }

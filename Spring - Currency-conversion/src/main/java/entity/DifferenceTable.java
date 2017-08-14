@@ -13,7 +13,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table
-@NamedQuery(query = "delete from DifferenceTable d", name = "DifferenceTable.deleteContentFromDifferenceTable")
+@NamedQuery(query = "delete from DifferenceTable d", name = "DifferenceTable.deleteContentOfDifferenceTable")
 public class DifferenceTable {
 
 	@Id

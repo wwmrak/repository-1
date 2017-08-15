@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.ejb.Stateless;
 import org.apache.commons.io.IOUtils;
 import org.json.simple.JSONArray;
@@ -17,13 +16,13 @@ import org.json.simple.parser.ParseException;
 
 @Stateless
 public class ParseJson {
-	public Map<String, String> jsonParse(List<String> personalInformationFromForm) {
+	public Map<String, String> downloadDocAndParse(Map<String, String> personalInfoFromForm) {
 		try {
 			Map<Integer, String> namesSurnamesAndEmailsMap = new HashMap<Integer, String>();
 			List<String> emailPagesList = new ArrayList<String>();
 			
-			String inputtedNameAndSurname = personalInformationFromForm.get(0).trim() + " " + personalInformationFromForm.get(1).trim();
-			String inputtedEmail = personalInformationFromForm.get(2);
+			String inputtedNameAndSurname = personalInfoFromForm.get("name").trim() + " " + personalInfoFromForm.get("surname").trim();
+			String inputtedEmail = personalInfoFromForm.get("email");
 			
 			String downloadDoc = downlodJsonDoc();
 
@@ -55,7 +54,7 @@ public class ParseJson {
 					&& (!namesSurnamesAndEmailsMap.containsValue(inputtedNameAndSurname.toLowerCase() 
 							+ inputtedEmail))) {
 				Map<String, String> errorMap = new HashMap<String, String>();
-				errorMap.put("error", "person with that mail not present on webpage");
+				errorMap.put("error", "userWithThatMailExistsOnWebPage");
 				
 				return errorMap;
 			}

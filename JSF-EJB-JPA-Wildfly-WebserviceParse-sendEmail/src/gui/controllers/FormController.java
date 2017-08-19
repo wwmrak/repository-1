@@ -13,7 +13,7 @@ import jpa.entities.PersonalInfo;
 
 @ManagedBean(eager = true)
 @ViewScoped
-public class ModelForm {
+public class FormController {
 	List<PersonalInfo> listOfRecords;
 	private String name;
 	private String surname;

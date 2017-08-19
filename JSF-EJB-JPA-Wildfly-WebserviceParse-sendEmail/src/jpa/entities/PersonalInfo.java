@@ -17,7 +17,7 @@ import javax.persistence.TemporalType;
 @Table
 @NamedQueries({
 	 @NamedQuery(name = "selectRowsWithSpecificEmail", query = "SELECT p FROM PersonalInfo p where p.email=:email"),
-	 @NamedQuery(name = "selectRowsWithSpecificEmaiNameAndSurname", query = "SELECT p FROM PersonalInfo p where "
+	 @NamedQuery(name = "selectRowsWithSpecificEmailNameAndSurname", query = "SELECT p FROM PersonalInfo p where "
 	 		+ "p.email=:email and p.name=:name and p.surname=:surname"),
 	 @NamedQuery(name = "selectDate", query = "SELECT p.date FROM PersonalInfo p where "
 		 		+ "p.email=:email and p.name=:name and p.surname=:surname"),

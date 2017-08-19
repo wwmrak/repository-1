@@ -67,6 +67,7 @@ public class ParseJson {
 	private String downlodJsonDoc() throws IOException, MalformedURLException {
 		String url = "http://jsonplaceholder.typicode.com/users";
 		String downloadDoc = IOUtils.toString(new URL(url));
+		
 		return downloadDoc;
 	}
 

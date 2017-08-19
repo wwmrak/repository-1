@@ -16,7 +16,6 @@ public class AccessDatabase {
 	@PersistenceContext(name = "personalInfoUnit")
 	private EntityManager entitymanager;
 
-	//done
 	public boolean checkSameMailDifferentNameInDB(Map<String, String> personalInfoFromForm) {
 		@SuppressWarnings("unchecked")
 		List<Integer> emailsList = entitymanager.createNamedQuery("selectRowsWithSpecificEmail")
@@ -75,14 +74,14 @@ public class AccessDatabase {
 		if (onePersonInfoMap.size() > 3) {
 			personalInfoObj.setUsername(onePersonInfoMap.get("username"));
 			personalInfoObj.setStreet(onePersonInfoMap.get("street"));
-			personalInfoObj.setApartment(onePersonInfoMap.get("suite"));
+			personalInfoObj.setSuite(onePersonInfoMap.get("suite"));
 			personalInfoObj.setCity(onePersonInfoMap.get("city"));
-			personalInfoObj.setPostNumber(onePersonInfoMap.get("zipcode"));
-			personalInfoObj.setGeoLat(onePersonInfoMap.get("lat"));
-			personalInfoObj.setGeoLng(onePersonInfoMap.get("lng"));
-			personalInfoObj.setTelephone(onePersonInfoMap.get("phone"));
-			personalInfoObj.setWebPage(onePersonInfoMap.get("website"));
-			personalInfoObj.setCompany(onePersonInfoMap.get("companyName"));
+			personalInfoObj.setZipcode(onePersonInfoMap.get("zipcode"));
+			personalInfoObj.setLat(onePersonInfoMap.get("lat"));
+			personalInfoObj.setLng(onePersonInfoMap.get("lng"));
+			personalInfoObj.setPhone(onePersonInfoMap.get("phone"));
+			personalInfoObj.setWebsite(onePersonInfoMap.get("website"));
+			personalInfoObj.setCompanyName(onePersonInfoMap.get("companyName"));
 			personalInfoObj.setCatchePhrase(onePersonInfoMap.get("catchPhrase"));
 			personalInfoObj.setBs(onePersonInfoMap.get("bs"));
 		}

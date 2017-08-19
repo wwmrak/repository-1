@@ -92,6 +92,7 @@ public class FormController {
 			sendMailObj.sendMail(onePersonInfoMap);
 			mailSent = true;
 		}
+		
 		listOfRecords = accessDatabaseObj.selectAllFromTable(); 
 	}
 

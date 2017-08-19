@@ -42,11 +42,6 @@ public class FormController {
 		personalInfoFromForm.put("surname", surname);
 		personalInfoFromForm.put("email", email);
 		
-//		List<String> listPodaciOsobeIzForme = new ArrayList<String>();
-//		listPodaciOsobeIzForme.add(name);
-//		listPodaciOsobeIzForme.add(surname);
-//		listPodaciOsobeIzForme.add(email);
-		
 		Map<String, String> onePersonInfoMap = parseJsonObj.downloadDocAndParse(personalInfoFromForm);
 				
 		if (onePersonInfoMap != null && onePersonInfoMap.containsKey("error") && onePersonInfoMap.get("error").equals(("userWithThatMailExistsOnWebPage"))) {
@@ -68,9 +63,9 @@ public class FormController {
 		}
 		
 		if (onePersonInfoMap != null && userInTableAndTimeCheck.equals("one hour passed and user is in table")) { 
-				onePersonInfoMap.put("name", name);
-				onePersonInfoMap.put("surname", surname);
-				onePersonInfoMap.put("email", email);
+				onePersonInfoMap.put("name2", name);
+				onePersonInfoMap.put("surname2", surname);
+				onePersonInfoMap.put("email2", email);
 				
 				sendMailObj.sendMail(onePersonInfoMap);
 				mailSent = true;
@@ -88,7 +83,6 @@ public class FormController {
             	mailSent = true;
         }
 				
-		//names/numbers
 		if (onePersonInfoMap != null) {
 			onePersonInfoMap.put("name", name);
 			onePersonInfoMap.put("surname", surname);
@@ -98,7 +92,6 @@ public class FormController {
 			sendMailObj.sendMail(onePersonInfoMap);
 			mailSent = true;
 		}
-		
 		listOfRecords = accessDatabaseObj.selectAllFromTable(); 
 	}
 

@@ -1,122 +1,118 @@
 package gui.controllers;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-
-import ejb.services.impl.CreateTableImpl;
-import ejb.services.impl.JsonParseImpl;
-import ejb.services.impl.SendMailImpl;
-import jpa.entities.OsobniPodaci;
+import ejb.services.impl.AccessDatabase;
+import ejb.services.impl.ParseJson;
+import ejb.services.impl.SendMail;
+import jpa.entities.PersonalInfo;
 
 @ManagedBean(eager = true)
 @ViewScoped
 public class ModelForm {
-	
-	private String ime;
-	private String prezime;
+	List<PersonalInfo> listOfRecords;
+	private String name;
+	private String surname;
 	private String email;
 	
-	boolean osobaSTimMailomPostojiNaUrl;
+	boolean userWithThatEmailExistsOnWebPage;
 	boolean sameEmailDifferentNameFromDB;
-	boolean vrijemeIzmeduUnosaManjeOd1h;
-	boolean mailSent;
-	
-	List<OsobniPodaci> listOfRecords;
+	boolean timeBetweenInputsLessThan1Hour;
+	boolean mailSent;		
 	
 	@EJB
-	CreateTableImpl createTable;
+	AccessDatabase accessDatabaseObj;
 	@EJB
-	JsonParseImpl jsonParseObj;
+	ParseJson parseJsonObj;
 	@EJB
-	SendMailImpl sendMailObj;
-	
+	SendMail sendMailObj;
+
 	public void addRecord() {
-		
-		osobaSTimMailomPostojiNaUrl = false;
+		userWithThatEmailExistsOnWebPage = false;
 		sameEmailDifferentNameFromDB = false;
-		vrijemeIzmeduUnosaManjeOd1h = false;
+		timeBetweenInputsLessThan1Hour = false;
 		mailSent = false;
 		
-		List<String> listPodaciOsobeIzForme = new ArrayList<String>();
-		listPodaciOsobeIzForme.add(ime);
-		listPodaciOsobeIzForme.add(prezime);
-		listPodaciOsobeIzForme.add(email);
+		Map<String, String> personalInfoFromForm = new HashMap<String, String>();
+		personalInfoFromForm.put("name", name);
+		personalInfoFromForm.put("surname", surname);
+		personalInfoFromForm.put("email", email);
 		
-		List<String> podaciOJednojOsobiParse = jsonParseObj.jsonParse(listPodaciOsobeIzForme);
+//		List<String> listPodaciOsobeIzForme = new ArrayList<String>();
+//		listPodaciOsobeIzForme.add(name);
+//		listPodaciOsobeIzForme.add(surname);
+//		listPodaciOsobeIzForme.add(email);
 		
-		if (podaciOJednojOsobiParse != null) {
-			if (podaciOJednojOsobiParse.contains("osobaSTimMailomPostojiNaUrl")) {
-				osobaSTimMailomPostojiNaUrl = true;
-				return;
-			}
+		Map<String, String> onePersonInfoMap = parseJsonObj.downloadDocAndParse(personalInfoFromForm);
+				
+		if (onePersonInfoMap != null && onePersonInfoMap.containsKey("error") && onePersonInfoMap.get("error").equals(("userWithThatMailExistsOnWebPage"))) {
+			userWithThatEmailExistsOnWebPage = true;
+			return;
 		}
 		
-		if (podaciOJednojOsobiParse == null) {
-			sameEmailDifferentNameFromDB = createTable.checkSameMailDifferentNameDB(listPodaciOsobeIzForme);
+		if (onePersonInfoMap == null) {
+			sameEmailDifferentNameFromDB = accessDatabaseObj.checkSameMailDifferentNameInDB(personalInfoFromForm);
 			if (sameEmailDifferentNameFromDB == true) return;
 		}
 			
-		String check1 = createTable.checkDaliOsobaUTabliciIVrijeme(listPodaciOsobeIzForme);
+		String userInTableAndTimeCheck = accessDatabaseObj.checkIfUserInTableAndTime(personalInfoFromForm);
 		
-		if (podaciOJednojOsobiParse == null) {
-			if (check1.equals("proslo sat vremena i osoba u tablici")) { 
-					sendMailObj.sendMail(listPodaciOsobeIzForme);
-					mailSent = true;
-					return;
-			}
+		if (onePersonInfoMap == null && userInTableAndTimeCheck.equals("one hour passed and user is in table")) { 
+				sendMailObj.sendMail(personalInfoFromForm);
+				mailSent = true;
+				return;
 		}
 		
-		if (podaciOJednojOsobiParse != null) {
-			if (check1.equals("proslo sat vremena i osoba u tablici")) { 
-					podaciOJednojOsobiParse.add(ime);
-					podaciOJednojOsobiParse.add(prezime);
-					podaciOJednojOsobiParse.add(email);
-					sendMailObj.sendMail(podaciOJednojOsobiParse);
-					mailSent = true;
-					return;
-			}
+		if (onePersonInfoMap != null && userInTableAndTimeCheck.equals("one hour passed and user is in table")) { 
+				onePersonInfoMap.put("name", name);
+				onePersonInfoMap.put("surname", surname);
+				onePersonInfoMap.put("email", email);
+				
+				sendMailObj.sendMail(onePersonInfoMap);
+				mailSent = true;
+				return;
 		}
 		
-        if (check1.equals("nije proslo sat vremena")) {
-        	vrijemeIzmeduUnosaManjeOd1h = true;
+        if (userInTableAndTimeCheck.equals("one hour hasn't passed")) {
+        	timeBetweenInputsLessThan1Hour = true;
         	return;
         }
             		
-        if (podaciOJednojOsobiParse == null) {
-            	createTable.createRecordOsobniPodaci(listPodaciOsobeIzForme);
-            	sendMailObj.sendMail(listPodaciOsobeIzForme);
+        if (onePersonInfoMap == null) {
+        	accessDatabaseObj.createPersonalInfoRecord(onePersonInfoMap);
+            	sendMailObj.sendMail(onePersonInfoMap);
             	mailSent = true;
         }
 				
-		
-		if (podaciOJednojOsobiParse != null) {
-			podaciOJednojOsobiParse.add(ime);
-			podaciOJednojOsobiParse.add(prezime);
-			podaciOJednojOsobiParse.add(email);
+		//names/numbers
+		if (onePersonInfoMap != null) {
+			onePersonInfoMap.put("name", name);
+			onePersonInfoMap.put("surname", surname);
+			onePersonInfoMap.put("email", email);
 			
-			createTable.createRecordOsobniPodaci(podaciOJednojOsobiParse);
-			sendMailObj.sendMail(podaciOJednojOsobiParse);
+			accessDatabaseObj.createPersonalInfoRecord(onePersonInfoMap);
+			sendMailObj.sendMail(onePersonInfoMap);
 			mailSent = true;
 		}
 		
-		listOfRecords = createTable.selectAllFromTable(); 
+		listOfRecords = accessDatabaseObj.selectAllFromTable(); 
 	}
-			
-	public String getIme() {
-		return ime;
+
+	public String getName() {
+		return name;
 	}
-	public void setIme(String ime) {
-		this.ime = ime;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getPrezime() {
-		return prezime;
+	public String getSurname() {
+		return surname;
 	}
-	public void setPrezime(String prezime) {
-		this.prezime = prezime;
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 	public String getEmail() {
 		return email;
@@ -124,52 +120,40 @@ public class ModelForm {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	public SendMailImpl getSendMailObj() {
+	public SendMail getSendMailObj() {
 		return sendMailObj;
 	}
-
-	public void setSendMailObj(SendMailImpl sendMailObj) {
+	public void setSendMailObj(SendMail sendMailObj) {
 		this.sendMailObj = sendMailObj;
 	}
-
-	public boolean isOsobaSTimMailomPostojiNaUrl() {
-		return osobaSTimMailomPostojiNaUrl;
-	}
-
-	public void setOsobaSTimMailomPostojiNaUrl(boolean osobaSTimMailomPostojiNaUrl) {
-		this.osobaSTimMailomPostojiNaUrl = osobaSTimMailomPostojiNaUrl;
-	}
-
 	public boolean isSameEmailDifferentMailFromDB() {
 		return sameEmailDifferentNameFromDB;
 	}
-
 	public void setSameEmailDifferentMailFromDB(boolean sameEmailDifferentMailFromDB) {
 		this.sameEmailDifferentNameFromDB = sameEmailDifferentMailFromDB;
 	}
-
+	public boolean isUserWithThatEmailExistsOnWebPage() {
+		return userWithThatEmailExistsOnWebPage;
+	}
+	public void setUserWithThatEmailExistsOnWebPage(boolean userWithThatEmailExistsOnWebPage) {
+		this.userWithThatEmailExistsOnWebPage = userWithThatEmailExistsOnWebPage;
+	}
+	public boolean isTimeBetweenInputsLessThan1Hour() {
+		return timeBetweenInputsLessThan1Hour;
+	}
+	public void setTimeBetweenInputsLessThan1Hour(boolean timeBetweenInputsLessThan1Hour) {
+		this.timeBetweenInputsLessThan1Hour = timeBetweenInputsLessThan1Hour;
+	}
 	public boolean isMailSent() {
 		return mailSent;
 	}
-
 	public void setMailSent(boolean mailSent) {
 		this.mailSent = mailSent;
 	}
-
-	public boolean isVrijemeIzmeduUnosaManjeOd1h() {
-		return vrijemeIzmeduUnosaManjeOd1h;
-	}
-
-	public void setVrijemeIzmeduUnosaManjeOd1h(boolean vrijemeIzmeduUnosaManjeOd1h) {
-		this.vrijemeIzmeduUnosaManjeOd1h = vrijemeIzmeduUnosaManjeOd1h;
-	}
-
-	public List<OsobniPodaci> getListOfRecords() {
+	public List<PersonalInfo> getListOfRecords() {
 		return listOfRecords;
 	}
-
-	public void setListOfRecords(List<OsobniPodaci> listOfRecords) {
+	public void setListOfRecords(List<PersonalInfo> listOfRecords) {
 		this.listOfRecords = listOfRecords;
 	}
 }

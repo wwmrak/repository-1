@@ -13,17 +13,17 @@
 	<h:form id="formId">
 		<h:outputText
 			value="Name : &#160;&#160;&#160;&#160;&#160;" />
-		<h:inputText id="nameId" value="#{modelForm.name}" />
+		<h:inputText id="nameId" value="#{formController.name}" />
 		<br />
 		<br />
 
 		<h:outputText value="Surname :&#160;" />
-		<h:inputText id="surnameId" value="#{modelForm.surname}" />
+		<h:inputText id="surnameId" value="#{formController.surname}" />
 		<br />
 		<br />
 
 		<h:outputText value="E-mail : &#160;&#160;&#160;&#160;" />
-		<h:inputText id="mailId" value="#{modelForm.email}">
+		<h:inputText id="mailId" value="#{formController.email}">
 			<f:validateRegex
 				pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 			<h:message for="mailId" style="color:red" />
@@ -32,7 +32,7 @@
 		<br />
 
 		<h:outputText value="&#160;" />
-		<h:commandButton value="Accept" action="#{modelForm.addRecord()}">
+		<h:commandButton value="Accept" action="#{formController.addRecord()}">
 			<f:ajax event="change"
 				update="output1Id output2Id output3Id output4Id tableId" />
 			<h:message for="mailId" style="color:red" />
@@ -41,21 +41,21 @@
 		<br />
 
 		<h:outputText id="output1Id"
-			rendered="#{modelForm.userWithThatEmailExistsOnWebPage}"
+			rendered="#{formController.userWithThatEmailExistsOnWebPage}"
 			value="User with that e-mail already exists. Input another e-mail." />
 		<h:outputText id="output2Id"
-			rendered="#{modelForm.sameEmailDifferentMailFromDB}"
+			rendered="#{formController.sameEmailDifferentMailFromDB}"
 			value="User with that e-mail already exists. Input another e-mail." />
 		<h:outputText id="output3Id"
-			rendered="#{modelForm.timeBetweenInputsLessThan1Hour}"
+			rendered="#{formController.timeBetweenInputsLessThan1Hour}"
 			value="Time between inputting the same user is less than one hour." />
-		<h:outputText id="output4Id" rendered="#{modelForm.mailSent}"
+		<h:outputText id="output4Id" rendered="#{formController.mailSent}"
 			value="E-mail sent" />
 
 		<br />
 		<br />
 		
-		<h:dataTable id="tableId" value="#{modelForm.listOfRecords}" var="recordsList" rendered="#{not empty modelForm.listOfRecords}"
+		<h:dataTable id="tableId" value="#{formController.listOfRecords}" var="recordsList" rendered="#{not empty formController.listOfRecords}"
 			cellspacing="0" cellpadding="0" border="1" rowClasses="odd,even"
 			style="font-size:12px;">
 			<h:column>

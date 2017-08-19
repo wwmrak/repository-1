@@ -17,7 +17,6 @@ public class SendMail {
 	final static String username = "mmmrak821@gmail.com";
     final static String password = "mmrak821111";
 	
-    //number
 	public void sendMail(Map<String, String> personalInfoFromForm) {
 		String receivingEmailAddress = personalInfoFromForm.get("email");
     
@@ -45,13 +44,13 @@ public class SendMail {
 		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailToAddress));
 		message.setSubject("E-mail message");
       
-		//number
 		if (personalInfoFromForm.size() > 3) {
-			message.setText("E-mail sent. Name : " + personalInfoFromForm.get(15) + ", surname: " 
-			+ personalInfoFromForm.get("surname") + ", e-mail: " + personalInfoFromForm.get("e-mail") + ", address: "
-			+ personalInfoFromForm.get("address") + " " + personalInfoFromForm.get(5) + " " + personalInfoFromForm.get(6));
+			message.setText("E-mail sent. Name : " + personalInfoFromForm.get("name2") + ", surname: " 
+			+ personalInfoFromForm.get("surname2") + ", e-mail: " + personalInfoFromForm.get("email2") + ", address: "
+			+ personalInfoFromForm.get("street") + " " + personalInfoFromForm.get("suite") + " " + personalInfoFromForm.get("city"));
 		} else message.setText("E-Mail sent. Name: " + personalInfoFromForm.get("name") + ", surname: " 
 			+ personalInfoFromForm.get("surname") + ", e-mail: " + personalInfoFromForm.get("email"));
+		
 		return message;
 	}
 

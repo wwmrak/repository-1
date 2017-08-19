@@ -34,14 +34,14 @@ public class PersonalInfo {
 	String email;	
 	String username;	
 	String street;
-	String apartment;
+	String suite;
 	String city;	
-	String postNumber;
-	String geoLat;
-	String geoLng;	
-	String telephone;
-	String webPage;
-	String company;
+	String zipcode;
+	String lat;
+	String lng;	
+	String phone;
+	String website;
+	String companyName;
 	String catchePhrase;
 	String bs;
 	
@@ -73,42 +73,12 @@ public class PersonalInfo {
 	public void setStreet(String street) {
 		this.street = street;
 	}
-	public String getApartment() {
-		return apartment;
-	}
-	public void setApartment(String apartment) {
-		this.apartment = apartment;
-	}
 	public String getCity() {
 		return city;
 	}
 	public void setCity(String city) {
 		this.city = city;
-	}
-	public String getPostNumber() {
-		return postNumber;
-	}
-	public void setPostNumber(String postNumber) {
-		this.postNumber = postNumber;
-	}
-	public String getTelephone() {
-		return telephone;
-	}
-	public void setTelephone(String telephone) {
-		this.telephone = telephone;
-	}
-	public String getWebPage() {
-		return webPage;
-	}
-	public void setWebPage(String webPage) {
-		this.webPage = webPage;
-	}
-	public String getCompany() {
-		return company;
-	}
-	public void setCompany(String company) {
-		this.company = company;
-	}
+	}	
 	public String getEmail() {
 		return email;
 	}
@@ -120,18 +90,6 @@ public class PersonalInfo {
 	}
 	public void setUsername(String username) {
 		this.username = username;
-	}
-	public String getGeoLat() {
-		return geoLat;
-	}
-	public void setGeoLat(String geoLat) {
-		this.geoLat = geoLat;
-	}
-	public String getGeoLng() {
-		return geoLng;
-	}
-	public void setGeoLng(String geoLng) {
-		this.geoLng = geoLng;
 	}
 	public String getCatchePhrase() {
 		return catchePhrase;
@@ -150,5 +108,47 @@ public class PersonalInfo {
 	}
 	public void setDate(Date date) {
 		this.date = date;
+	}
+	public String getSuite() {
+		return suite;
+	}
+	public void setSuite(String suite) {
+		this.suite = suite;
+	}
+	public String getZipcode() {
+		return zipcode;
+	}
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
+	}
+	public String getLat() {
+		return lat;
+	}
+	public void setLat(String lat) {
+		this.lat = lat;
+	}
+	public String getLng() {
+		return lng;
+	}
+	public void setLng(String lng) {
+		this.lng = lng;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getWebsite() {
+		return website;
+	}
+	public void setWebsite(String website) {
+		this.website = website;
+	}
+	public String getCompanyName() {
+		return companyName;
+	}
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 }

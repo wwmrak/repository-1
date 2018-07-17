@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>mainPage</title>
+</h:head>
+
+<h:body>
+	<h:form id="formId">
+		<h:outputText value="Choose an option" />
+		<br />
+		<br />
+		
+		<h:outputText value="&#160;" />
+		<h:commandButton value="Add an employee" action="addRecord?faces-redirect=true"
+			style="width: 275px;">
+		</h:commandButton>
+		<br />
+		<br />
+		
+		<h:outputText value="&#160;" />
+		<h:commandButton value="Change information of employee" action="changeRecord?faces-redirect=true"
+			style="width: 275px;">
+		</h:commandButton>
+		<br />
+		<br />
+		
+		<h:outputText value="&#160;" />
+		<h:commandButton value="Delete an employee" action="deleteRecord?faces-redirect=true"
+			style="width: 275px;">
+		</h:commandButton>
+		<br />
+		<br />
+		
+		<h:outputText value="&#160;" />
+		<h:commandButton value="Show information about employees" action="#{controller.wholeTableDisplay()}"
+			style="width: 275px;">
+			<f:ajax event="change" update="tableWhole, tablePartial" />
+		</h:commandButton>
+		<br />
+		<br />
+		
+		<h:outputText value="&#160;" />
+		<h:commandButton value="Show number of employees per department" action="#{controller.departmentsDisplay()}"
+			style="width: 275px;">
+			<f:ajax event="change" update="tablePartial, tableWhole" />
+		</h:commandButton>
+		<br />
+		<br />
+		
+		<h:dataTable id="tableWhole" value="#{controller.listOfRecords}" var="recordsList" 
+			rendered="#{not empty controller.listOfRecords and controller.visibleWholeTable}" cellspacing="0" cellpadding="0" 
+			border="1" rowClasses="odd,even" style="font-size:12px;">
+			<h:column>
+				<f:facet name="header">Name</f:facet>
+				<h:outputText value="#{recordsList.name}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Surname</f:facet>
+				<h:outputText value="#{recordsList.surname}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Address</f:facet>
+				<h:outputText value="#{recordsList.address}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Education</f:facet>
+				<h:outputText value="#{recordsList.education}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Department</f:facet>
+				<h:outputText value="#{recordsList.department}" />
+			</h:column>
+		</h:dataTable>
+		
+		<h:dataTable value="#{controller.employeesPerDepartmentList}" var="employeesInDepartmentList" id="tablePartial" 
+			rendered="#{not empty controller.employeesPerDepartmentList and controller.visiblePartialTable}" cellspacing="0" cellpadding="0" border="1" 
+			rowClasses="odd,even"
+			style="font-size:12px;">
+
+			<h:column>
+				<f:facet name="header">Development</f:facet>
+				<h:outputText value="#{employeesInDepartmentList.employeesInDevelopment}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Production</f:facet>
+				<h:outputText value="#{employeesInDepartmentList.employeesInProduction}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Marketing</f:facet>
+				<h:outputText value="#{employeesInDepartmentList.employeesInMarketing}" />
+			</h:column>
+		</h:dataTable>
+	</h:form>
+</h:body>
+</html>
+

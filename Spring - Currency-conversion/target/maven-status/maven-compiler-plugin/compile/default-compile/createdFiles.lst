@@ -1,0 +1,5 @@
+net\javabeat\springdata\jpa\data\Employee.class
+net\javabeat\springdata\jpa\data\Address.class
+net\javabeat\springdata\repo\EmployeeRepository.class
+net\javabeat\springdata\executable\Executable.class
+net\javabeat\springdata\beans\RegistrationBean.class

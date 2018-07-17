@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+encoding//WebContent/catalog.xhtml=UTF-8
+encoding//src/ejb/services/AuthorConverter.java=UTF-8
+encoding//src/ejb/services/AuthorService.java=UTF-8
+encoding//src/ejb/services/QueryDatabase.java=UTF-8
+encoding//src/gui/controllers/CatalogController.java=UTF-8

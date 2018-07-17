@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"		
+	>
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+</h:head>
+
+<h:body>
+	<h:form id="formId">
+		<h:outputText
+			value="Name : &#160;&#160;&#160;&#160;&#160;" />
+		<h:inputText id="nameId" value="#{formController.name}" />
+		<br />
+		<br />
+
+		<h:outputText value="Surname :&#160;" />
+		<h:inputText id="surnameId" value="#{formController.surname}" />
+		<br />
+		<br />
+
+		<h:outputText value="E-mail : &#160;&#160;&#160;&#160;" />
+		<h:inputText id="mailId" value="#{formController.email}">
+			<f:validateRegex
+				pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+			<h:message for="mailId" style="color:red" />
+		</h:inputText>
+		<br />
+		<br />
+
+		<h:outputText value="&#160;" />
+		<h:commandButton value="Accept" action="#{formController.addRecord()}">
+			<f:ajax event="change"
+				update="output1Id output2Id output3Id output4Id tableId" />
+			<h:message for="mailId" style="color:red" />
+		</h:commandButton>
+		<br />
+		<br />
+
+		<h:outputText id="output1Id"
+			rendered="#{formController.userWithThatEmailExistsOnWebPage}"
+			value="User with that e-mail already exists. Input another e-mail." />
+		<h:outputText id="output2Id"
+			rendered="#{formController.sameEmailDifferentMailFromDB}"
+			value="User with that e-mail already exists. Input another e-mail." />
+		<h:outputText id="output3Id"
+			rendered="#{formController.timeBetweenInputsLessThan1Hour}"
+			value="Time between inputting the same user is less than one hour." />
+		<h:outputText id="output4Id" rendered="#{formController.mailSent}"
+			value="E-mail sent" />
+
+		<br />
+		<br />
+		
+		<h:dataTable id="tableId" value="#{formController.listOfRecords}" var="recordsList" rendered="#{not empty formController.listOfRecords}"
+			cellspacing="0" cellpadding="0" border="1" rowClasses="odd,even"
+			style="font-size:12px;">
+			<h:column>
+				<f:facet name="header">Name</f:facet>
+				<h:outputText value="#{recordsList.name}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Surname</f:facet>
+				<h:outputText value="#{recordsList.surname}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">E-mail</f:facet>
+				<h:outputText value="#{recordsList.email}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Username</f:facet>
+				<h:outputText value="#{recordsList.username}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Street</f:facet>
+				<h:outputText value="#{recordsList.street}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">City</f:facet>
+				<h:outputText value="#{recordsList.city}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Post number</f:facet>
+				<h:outputText value="#{recordsList.zipcode}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Apartment</f:facet>
+				<h:outputText value="#{recordsList.suite}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Geo-Lat</f:facet>
+				<h:outputText value="#{recordsList.lat}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Geo-lng</f:facet>
+				<h:outputText value="#{recordsList.lng}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Telephone number</f:facet>
+				<h:outputText value="#{recordsList.phone}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Web page</f:facet>
+				<h:outputText value="#{recordsList.website}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Company name</f:facet>
+				<h:outputText value="#{recordsList.companyName}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Catchephrase</f:facet>
+				<h:outputText value="#{recordsList.catchePhrase}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Bs</f:facet>
+				<h:outputText value="#{recordsList.bs}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Date</f:facet>
+				<h:outputText value="#{recordsList.date}" />
+			</h:column>
+		</h:dataTable>
+	</h:form>
+</h:body>
+</html>
+

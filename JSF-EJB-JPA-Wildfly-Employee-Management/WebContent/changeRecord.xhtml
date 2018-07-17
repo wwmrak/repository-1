@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>changeRecordPage</title>
+</h:head>
+
+<h:body>
+	<h:form id="formId">
+		<h:outputText value="Change employee information" />
+		<br />
+		<br />
+		
+		<h:outputText
+			value="Name : &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;" />
+		<h:inputText id="nameId" value="#{controller.name}" />
+		<br />
+		<br />
+
+		<h:outputText value="Surname :&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;" />
+		<h:inputText id="surnameId" value="#{controller.surname}" />
+		<br />
+		<br />
+
+		<h:outputText
+			value="Address : &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;" />
+		<h:inputText id="addressId" value="#{controller.address}">
+		</h:inputText>
+		<br />
+		<br />
+		
+		<h:outputText
+			value="Education : &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;" />
+		<h:inputText id="educationId" value="#{controller.education}">
+		</h:inputText>
+		<br />
+		<br />
+		
+		<h:outputText
+			value="Department" />
+		<br />
+		<h:outputText
+			value="(Development, Production or Marketing) : &#160;&#160;&#160;" />
+		<h:inputText id="departmentId" value="#{controller.department}">
+		</h:inputText>
+		<br />
+		<br />
+		
+		<h:outputText value="&#160;" />
+		<h:commandButton value="Accept" action="#{controller.recordChange()}">
+		</h:commandButton>
+		<br />
+		<br />
+	</h:form>
+</h:body>
+</html>
+
